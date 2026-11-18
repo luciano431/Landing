@@ -44,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <style>
 :root{--bg:#0b1018;--panel:#141c28;--line:#293446;--text:#eef3fb;--muted:#a5b2c5;--lime:#c7f36b;--blue:#90b9ff;--paper:#f3f5ee;--ink:#0b1018;--inkmuted:#4f5b6b;--paperline:#dde2d6}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
 main{overflow-x:clip}
 a{color:inherit;text-decoration:none}
@@ -93,7 +93,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif}
 .hero-wrap{position:relative}
 .hero-wrap::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 60% 30%,#000 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 60% 30%,#000 20%,transparent 70%);pointer-events:none}
 .glow{position:absolute;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(144,185,255,.18),transparent 65%);pointer-events:none;top:-120px;right:-160px;transition:transform .6s ease-out}
-.hero-layout{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:48px;align-items:center;padding:60px 0 70px}
+.hero-layout{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,450px);gap:64px;align-items:center;padding:60px 0 70px}
 .eyebrow{color:var(--lime);font-weight:700;font-size:12px;letter-spacing:2.3px;text-transform:uppercase}
 .hero h1{font-size:clamp(40px,4.6vw,62px);line-height:1.04;letter-spacing:-2.8px;margin:22px 0 24px}
 .hero p{font-size:17.5px;max-width:600px;color:var(--muted);margin:0}
@@ -114,9 +114,11 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif}
 .kpi em{font-style:normal;font-size:11px;color:var(--lime);font-weight:700}
 .chart{margin:14px 0 6px;background:#0e1520;border:1px solid #243246;border-radius:12px;padding:12px 12px 6px}
 .chart svg{display:block;width:100%;height:110px}
-.chart .line{stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.4s .4s cubic-bezier(.4,.1,.2,1) forwards}
-.chart .area{opacity:0;animation:fadein 1s 1.6s forwards}
-.chart .pt{opacity:0;animation:fadein .4s 2.6s forwards}
+.chart .line{stroke-dasharray:600;stroke-dashoffset:600}
+.chart .area,.chart .pt{opacity:0}
+.live .chart .line{animation:draw 2.4s .3s cubic-bezier(.4,.1,.2,1) forwards}
+.live .chart .area{animation:fadein 1s 1.5s forwards}
+.live .chart .pt{animation:fadein .4s 2.5s forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fadein{to{opacity:1}}
 .bars{display:grid;gap:7px;margin-top:10px}
@@ -182,6 +184,9 @@ section{padding:110px 0}
 .paper .btn{background:var(--ink);color:white;border-color:var(--ink)}
 
 /* Before / After */
+.shift-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,470px);gap:56px;align-items:center;margin-bottom:64px}
+.shift-top .sectiontop{margin-bottom:0}
+.dash-col{position:relative}
 .ba{display:grid;grid-template-columns:1fr 64px 1fr;gap:0 12px;align-items:stretch}
 .ba-h{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;font-weight:700;color:var(--muted);padding:0 0 12px}
 .ba-h.new{color:var(--lime)}
@@ -270,23 +275,25 @@ section{padding:110px 0}
 
 /* Contact */
 #contact{padding:90px 0 90px}
-.contact-final{background:var(--lime);color:#10180b;border-radius:28px;padding:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,440px);gap:48px;align-items:start;position:relative;overflow:hidden}
+.contact-final{background:var(--lime);color:#10180b;border-radius:28px;padding:64px 56px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center;position:relative;overflow:hidden}
 .contact-final::after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;border:1px solid rgba(16,24,11,.12);left:-180px;bottom:-260px;box-shadow:0 0 0 60px rgba(16,24,11,.03),0 0 0 120px rgba(16,24,11,.025);pointer-events:none}
 .contact-final .eyebrow{color:#344e19}
 .contact-final h2{font:700 clamp(34px,4.4vw,58px)/1.04 'Space Grotesk',sans-serif;letter-spacing:-2.2px;margin:12px 0 16px}
 .contact-final p{max-width:500px;margin:0}
-.contact-cta{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:30px}
+.contact-cta{display:flex;flex-direction:column;align-items:flex-start;gap:14px;position:relative;z-index:1}
 .contact-final .btn.dark{background:#111a13;color:white;border-color:#111a13}
+.contact-final .btn.outline{background:transparent;color:#10180b;border-color:#10180b}
+.contact-final .btn.outline:hover{box-shadow:none;background:rgba(16,24,11,.08)}
 .contact-final .social-row a{color:#10180b;text-decoration:underline;text-underline-offset:4px;font-weight:600}
 
 /* Form */
-.contact-form{position:relative;z-index:2;background:#0b1018;color:var(--text);border-radius:20px;padding:30px;box-shadow:0 24px 60px rgba(16,24,11,.3)}
+.contact-form{position:relative;z-index:2;background:linear-gradient(180deg,#162131,#121a26);border:1px solid #2c3a4e;color:var(--text);border-radius:22px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .contact-form h3{font-size:23px;margin:0 0 6px}
 .contact-form p{color:var(--muted);font-size:14px;margin:0 0 14px}
 .field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
 .field label{font-size:13px;font-weight:700}
 .field label small{font-weight:400;color:var(--muted)}
-.field input,.field textarea{width:100%;border:1px solid #405068;background:#121a26;color:white;border-radius:10px;padding:12px 13px;font:inherit;transition:border-color .2s}
+.field input,.field textarea{width:100%;border:1px solid #405068;background:#0b1018;color:white;border-radius:10px;padding:12px 13px;font:inherit;transition:border-color .2s}
 .field textarea{resize:vertical;min-height:84px}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--lime)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -313,6 +320,7 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
 
 /* Responsive */
 @media(max-width:1000px){
+  .shift-top{grid-template-columns:1fr;gap:70px}
   .pains{grid-template-columns:1fr 1fr}
   .svc{grid-template-columns:1fr}
   .tabs{flex-direction:row;overflow-x:auto;scrollbar-width:none}
@@ -380,7 +388,7 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
         <a data-i18n="nav_services" href="#services">Servicios</a>
         <a data-i18n="nav_approach" href="#approach">Método</a>
         <a data-i18n="nav_about" href="#about">Sobre mí</a>
-        <a class="btn" href="#contact"><span data-i18n="nav_cta">Hablemos</span> <span class="arr">↗</span></a>
+        <a class="btn" href="#lead-form"><span data-i18n="nav_cta">Hablemos</span> <span class="arr">↗</span></a>
         <button class="lang-toggle" id="lang-toggle" type="button">ENGLISH</button>
       </div>
     </nav>
@@ -398,40 +406,43 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
           <h1 class="rv" data-d="1" data-i18n="hero_h1">Tu negocio necesita más que anuncios. <span class="hl-solid">Necesita una estrategia</span> para crecer.</h1>
           <p class="rv" data-d="2" data-i18n="hero_p">Ayudo a empresas de ecommerce y servicios a conseguir clientes y crecer con una estrategia que conecta publicidad, datos, tecnología y optimización. De la primera visita a la venta, cada decisión tiene un propósito.</p>
           <div class="actions rv" data-d="3">
-            <a class="btn" href="#contact"><span data-i18n="hero_cta1">Hablemos de tu negocio</span> <span class="arr">↗</span></a>
+            <a class="btn" href="#lead-form"><span data-i18n="hero_cta1">Hablemos de tu negocio</span> <span class="arr">↗</span></a>
             <a class="btn secondary" data-i18n="hero_cta2" href="#cases">Ver casos ↓</a>
           </div>
           <div class="micro rv" data-d="3"><i class="dot-live"></i><span data-i18n="hero_micro">Disponible para nuevos proyectos · LATAM y Estados Unidos</span></div>
         </header>
 
-        <div class="rv" data-d="2" style="position:relative">
-          <div class="dash" id="dash" aria-hidden="true">
-            <div class="dash-top"><b data-i18n="d_title">Panel de crecimiento</b><span class="pill" data-i18n="d_range">Últimos 90 días</span></div>
-            <div class="kpis">
-              <div class="kpi"><small data-i18n="d_k1">Ingresos</small><strong data-count="128" data-prefix="$" data-suffix="K">$0K</strong><em>▲ 64%</em></div>
-              <div class="kpi"><small>ROAS</small><strong data-count="8.4" data-dec="1" data-suffix="×">0×</strong><em>▲ 2.1×</em></div>
-              <div class="kpi"><small data-i18n="d_k3">Ventas</small><strong data-count="1240">0</strong><em>▲ 41%</em></div>
-            </div>
-            <div class="chart">
-              <svg viewBox="0 0 400 110" preserveAspectRatio="none">
-                <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c7f36b" stop-opacity=".35"/><stop offset="1" stop-color="#c7f36b" stop-opacity="0"/></linearGradient></defs>
-                <path class="area" d="M0,92 C40,88 60,84 90,80 S150,74 180,62 S240,58 270,44 S330,30 360,20 L400,12 L400,110 L0,110Z" fill="url(#g1)"/>
-                <path class="line" d="M0,92 C40,88 60,84 90,80 S150,74 180,62 S240,58 270,44 S330,30 360,20 L400,12" fill="none" stroke="#c7f36b" stroke-width="2.5"/>
-                <path class="line" style="animation-delay:.8s" d="M0,98 C50,96 90,95 130,92 S200,90 250,86 S330,82 400,78" fill="none" stroke="#90b9ff" stroke-width="1.6" stroke-dasharray="4 4" opacity=".7"/>
-                <circle class="pt" cx="400" cy="12" r="4" fill="#c7f36b"/>
-              </svg>
-            </div>
-            <div class="bars" id="bars">
-              <div class="bar"><span>Google</span><i><b data-w="82"></b></i><span>46%</span></div>
-              <div class="bar"><span>Meta</span><i><b data-w="58"></b></i><span>31%</span></div>
-              <div class="bar"><span>Email</span><i><b data-w="30"></b></i><span>14%</span></div>
-            </div>
-            <div class="insight"><span class="ic">✦</span><div><small data-i18n="d_ins">Insight</small><span id="typer"></span><span class="caret"></span></div></div>
+        <form class="contact-form rv" data-d="2" id="lead-form" method="POST" action="https://formsubmit.co/luciano.dgads@gmail.com" novalidate>
+          <input type="hidden" name="_subject" value="Nueva consulta desde luciano-growth"/>
+          <input type="hidden" name="_template" value="table"/>
+          <input type="hidden" name="_next" value="https://luciano431.github.io/landing/gracias.html"/>
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
+          <input type="hidden" name="idioma" id="lead-lang" value="es"/>
+          <h3 data-i18n="form_h">Hablemos de tus objetivos</h3>
+          <p data-i18n="form_p">Contame qué querés lograr. Te respondo personalmente.</p>
+          <div class="two">
+            <div class="field"><label data-i18n="form_name" for="lead-name">Tu nombre *</label><input autocomplete="name" id="lead-name" maxlength="120" name="nombre" placeholder="Nombre y apellido" required/></div>
+            <div class="field"><label data-i18n="form_email" for="lead-email">Email *</label><input autocomplete="email" id="lead-email" maxlength="180" name="email" type="email" placeholder="nombre@empresa.com" required/></div>
           </div>
-          <div class="float-chip fc1"><span>CPA</span><b>−38%</b></div>
-          <div class="float-chip fc2"><span>CAPI</span><b>✓</b><span data-i18n="d_chip">tracking OK</span></div>
-          <div class="dash-note" data-i18n="d_note">Panel ilustrativo · no corresponde a un cliente real</div>
-        </div>
+          <div class="two">
+            <div class="field"><label data-i18n="form_phone" for="lead-phone">WhatsApp <small>(opcional)</small></label><input autocomplete="tel" id="lead-phone" maxlength="40" name="telefono" type="tel" placeholder="+54 9 ..."/></div>
+            <div class="field"><label data-i18n="form_company" for="lead-company">Empresa / web <small>(opcional)</small></label><input id="lead-company" maxlength="200" name="empresa" placeholder="tuempresa.com"/></div>
+          </div>
+          <div class="field">
+            <label data-i18n="form_service" id="svc-label">¿Qué te gustaría mejorar?</label>
+            <div class="opts" role="radiogroup" aria-labelledby="svc-label">
+              <label><input type="radio" name="servicio" value="Google Ads" checked/><span>Google Ads</span></label>
+              <label><input type="radio" name="servicio" value="Meta Ads"/><span>Meta Ads</span></label>
+              <label><input type="radio" name="servicio" value="Tracking & analytics"/><span data-i18n="opt_tracking">Tracking y analítica</span></label>
+              <label><input type="radio" name="servicio" value="Growth strategy"/><span data-i18n="opt_growth">Estrategia de crecimiento</span></label>
+              <label><input type="radio" name="servicio" value="Not sure yet"/><span data-i18n="opt_unsure">Todavía no lo sé</span></label>
+            </div>
+          </div>
+          <div class="field"><label data-i18n="form_msg" for="lead-message">Contame sobre tus objetivos *</label><textarea id="lead-message" maxlength="2000" name="mensaje" placeholder="¿Qué te gustaría mejorar?" required></textarea></div>
+          <button class="btn" id="lead-submit" type="submit"><span data-i18n="form_btn">Enviar consulta</span> <span class="arr">↗</span></button>
+          <p class="form-note" data-i18n="form_note">Usaré tus datos solo para responder tu consulta.</p>
+          <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>
+        </form>
       </div>
     </div>
   </div>
@@ -481,17 +492,47 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
           <div class="viz"><svg class="v-dots" viewBox="0 0 200 66"><rect x="8" y="20" width="44" height="28" rx="8" fill="none" stroke="#5c6b80" stroke-width="1.5"/><rect x="78" y="20" width="44" height="28" rx="8" fill="none" stroke="#5c6b80" stroke-width="1.5"/><rect x="148" y="20" width="44" height="28" rx="8" fill="none" stroke="#5c6b80" stroke-width="1.5"/><g><circle cx="30" cy="34" r="5" fill="#c7f36b"/><circle cx="100" cy="34" r="5" fill="#c7f36b"/><circle cx="170" cy="34" r="5" fill="#c7f36b"/></g></svg></div>
         </article>
       </div>
-      <div class="pains-cta rv"><span data-i18n="p_cta_t">¿Te identificás con alguna?</span> <a class="btn" href="#contact"><span data-i18n="p_cta">Hablemos</span> <span class="arr">→</span></a></div>
+      <div class="pains-cta rv"><span data-i18n="p_cta_t">¿Te identificás con alguna?</span> <a class="btn" href="#lead-form"><span data-i18n="p_cta">Hablemos</span> <span class="arr">→</span></a></div>
     </div>
   </section>
 
   <!-- BEFORE / AFTER -->
   <section id="shift">
     <div class="wrap">
+      <div class="shift-top">
       <div class="sectiontop">
         <div class="eyebrow rv" data-i18n="ba_eyebrow">El cambio de enfoque</div>
         <h2 class="rv" data-d="1" data-i18n="ba_h">De acciones sueltas a un <span class="hl-solid">sistema de crecimiento</span></h2>
         <p class="rv" data-d="2" data-i18n="ba_p">Tu cliente y tu producto siguen siendo lo central. Lo que cambia es cómo se conectan las piezas para llegar a la venta.</p>
+      </div>
+        <div class="dash-col rv" data-d="2">
+          <div class="dash" id="dash" aria-hidden="true">
+            <div class="dash-top"><b data-i18n="d_title">Panel de crecimiento</b><span class="pill" data-i18n="d_range">Últimos 90 días</span></div>
+            <div class="kpis">
+              <div class="kpi"><small data-i18n="d_k1">Ingresos</small><strong data-count="128" data-prefix="$" data-suffix="K">$0K</strong><em>▲ 64%</em></div>
+              <div class="kpi"><small>ROAS</small><strong data-count="8.4" data-dec="1" data-suffix="×">0×</strong><em>▲ 2.1×</em></div>
+              <div class="kpi"><small data-i18n="d_k3">Ventas</small><strong data-count="1240">0</strong><em>▲ 41%</em></div>
+            </div>
+            <div class="chart">
+              <svg viewBox="0 0 400 110" preserveAspectRatio="none">
+                <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c7f36b" stop-opacity=".35"/><stop offset="1" stop-color="#c7f36b" stop-opacity="0"/></linearGradient></defs>
+                <path class="area" d="M0,92 C40,88 60,84 90,80 S150,74 180,62 S240,58 270,44 S330,30 360,20 L400,12 L400,110 L0,110Z" fill="url(#g1)"/>
+                <path class="line" d="M0,92 C40,88 60,84 90,80 S150,74 180,62 S240,58 270,44 S330,30 360,20 L400,12" fill="none" stroke="#c7f36b" stroke-width="2.5"/>
+                <path class="line" style="animation-delay:.8s" d="M0,98 C50,96 90,95 130,92 S200,90 250,86 S330,82 400,78" fill="none" stroke="#90b9ff" stroke-width="1.6" stroke-dasharray="4 4" opacity=".7"/>
+                <circle class="pt" cx="400" cy="12" r="4" fill="#c7f36b"/>
+              </svg>
+            </div>
+            <div class="bars" id="bars">
+              <div class="bar"><span>Google</span><i><b data-w="82"></b></i><span>46%</span></div>
+              <div class="bar"><span>Meta</span><i><b data-w="58"></b></i><span>31%</span></div>
+              <div class="bar"><span>Email</span><i><b data-w="30"></b></i><span>14%</span></div>
+            </div>
+            <div class="insight"><span class="ic">✦</span><div><small data-i18n="d_ins">Insight</small><span id="typer"></span><span class="caret"></span></div></div>
+          </div>
+          <div class="float-chip fc1"><span>CPA</span><b>−38%</b></div>
+          <div class="float-chip fc2"><span>CAPI</span><b>✓</b><span data-i18n="d_chip">tracking OK</span></div>
+          <div class="dash-note" data-i18n="d_note">Panel ilustrativo · no corresponde a un cliente real</div>
+        </div>
       </div>
       <div class="ba">
         <div class="ba-h old-h" data-i18n="ba_old">Marketing por partes</div><div></div><div class="ba-h new" data-i18n="ba_new">Growth conectado</div>
@@ -620,43 +661,12 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
           <div class="eyebrow" data-i18n="ct_eyebrow">Trabajemos juntos</div>
           <h2 data-i18n="ct_h">¿Hablamos de cómo hacer crecer tu negocio?</h2>
           <p data-i18n="ct_p">Contame sobre tu negocio, tus objetivos y qué te gustaría mejorar. Respondo personalmente.</p>
-          <div class="contact-cta">
-            <a class="btn dark js-wa" data-wa-loc="final_cta" href="https://wa.me/5493794143826" rel="noopener noreferrer" target="_blank"><span data-i18n="ct_btn">Escribime por WhatsApp</span> <span class="arr">↗</span></a>
-            <div class="social-row"><a data-i18n="ct_li" href="https://www.linkedin.com/in/luciano-diego-gonzalez-/" rel="noopener noreferrer" target="_blank">Mi perfil de LinkedIn ↗</a></div>
-          </div>
         </div>
-
-        <form class="contact-form" id="lead-form" method="POST" action="https://formsubmit.co/luciano.dgads@gmail.com" novalidate>
-          <input type="hidden" name="_subject" value="Nueva consulta desde luciano-growth"/>
-          <input type="hidden" name="_template" value="table"/>
-          <input type="hidden" name="_next" value="https://luciano431.github.io/landing/gracias.html"/>
-          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
-          <input type="hidden" name="idioma" id="lead-lang" value="es"/>
-          <h3 data-i18n="form_h">Hablemos de tus objetivos</h3>
-          <p data-i18n="form_p">Contame qué querés lograr. Te respondo personalmente.</p>
-          <div class="two">
-            <div class="field"><label data-i18n="form_name" for="lead-name">Tu nombre *</label><input autocomplete="name" id="lead-name" maxlength="120" name="nombre" placeholder="Nombre y apellido" required/></div>
-            <div class="field"><label data-i18n="form_email" for="lead-email">Email *</label><input autocomplete="email" id="lead-email" maxlength="180" name="email" type="email" placeholder="nombre@empresa.com" required/></div>
-          </div>
-          <div class="two">
-            <div class="field"><label data-i18n="form_phone" for="lead-phone">WhatsApp <small>(opcional)</small></label><input autocomplete="tel" id="lead-phone" maxlength="40" name="telefono" type="tel" placeholder="+54 9 ..."/></div>
-            <div class="field"><label data-i18n="form_company" for="lead-company">Empresa / web <small>(opcional)</small></label><input id="lead-company" maxlength="200" name="empresa" placeholder="tuempresa.com"/></div>
-          </div>
-          <div class="field">
-            <label data-i18n="form_service" id="svc-label">¿Qué te gustaría mejorar?</label>
-            <div class="opts" role="radiogroup" aria-labelledby="svc-label">
-              <label><input type="radio" name="servicio" value="Google Ads" checked/><span>Google Ads</span></label>
-              <label><input type="radio" name="servicio" value="Meta Ads"/><span>Meta Ads</span></label>
-              <label><input type="radio" name="servicio" value="Tracking & analytics"/><span data-i18n="opt_tracking">Tracking y analítica</span></label>
-              <label><input type="radio" name="servicio" value="Growth strategy"/><span data-i18n="opt_growth">Estrategia de crecimiento</span></label>
-              <label><input type="radio" name="servicio" value="Not sure yet"/><span data-i18n="opt_unsure">Todavía no lo sé</span></label>
-            </div>
-          </div>
-          <div class="field"><label data-i18n="form_msg" for="lead-message">Contame sobre tus objetivos *</label><textarea id="lead-message" maxlength="2000" name="mensaje" placeholder="¿Qué te gustaría mejorar?" required></textarea></div>
-          <button class="btn" id="lead-submit" type="submit"><span data-i18n="form_btn">Enviar consulta</span> <span class="arr">↗</span></button>
-          <p class="form-note" data-i18n="form_note">Usaré tus datos solo para responder tu consulta.</p>
-          <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>
-        </form>
+        <div class="contact-cta">
+          <a class="btn dark js-wa" data-wa-loc="final_cta" href="https://wa.me/5493794143826" rel="noopener noreferrer" target="_blank"><span data-i18n="ct_btn">Escribime por WhatsApp</span> <span class="arr">↗</span></a>
+          <a class="btn outline" href="#lead-form"><span data-i18n="ct_form">Completar el formulario</span> <span class="arr">↑</span></a>
+          <div class="social-row"><a data-i18n="ct_li" href="https://www.linkedin.com/in/luciano-diego-gonzalez-/" rel="noopener noreferrer" target="_blank">Mi perfil de LinkedIn ↗</a></div>
+        </div>
       </div>
     </div>
   </section>
@@ -754,7 +764,7 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
     byline:["Growth Partner · Marketing de resultados","Growth Partner · Performance Marketing"],
     ct_eyebrow:["Trabajemos juntos","Let's work together"], ct_h:["¿Hablamos de cómo hacer crecer tu negocio?","Let’s talk about growing your business."],
     ct_p:["Contame sobre tu negocio, tus objetivos y qué te gustaría mejorar. Respondo personalmente.","Tell me about your business, your goals and what you want to improve. I reply personally."],
-    ct_btn:["Escribime por WhatsApp","Chat on WhatsApp"], ct_li:["Mi perfil de LinkedIn ↗","LinkedIn profile ↗"],
+    ct_btn:["Escribime por WhatsApp","Chat on WhatsApp"], ct_form:["Completar el formulario","Fill out the form"], ct_li:["Mi perfil de LinkedIn ↗","LinkedIn profile ↗"],
     form_h:["Hablemos de tus objetivos","Let’s talk about your goals"],
     form_p:["Contame qué querés lograr. Te respondo personalmente.","Tell me what you're working toward. I'll reply personally."],
     form_email:["Email *","Email *"],
@@ -824,7 +834,7 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
         io.unobserve(el);
       });
     }, {threshold:.18, rootMargin:'0px 0px -6% 0px'});
-    document.querySelectorAll('.rv,[data-count],.hl-solid').forEach(function(el){ io.observe(el); });
+    document.querySelectorAll('.rv,[data-count],.hl-solid').forEach(function(el){ if (!el.closest('#dash')) io.observe(el); });
     // filas antes/después: display:contents no se observa, usamos su primer hijo
     document.querySelectorAll('.ba-row').forEach(function(row){
       var o = new IntersectionObserver(function(en){ if (en[0].isIntersecting){ row.classList.add('in'); o.disconnect(); } }, {threshold:.4});
@@ -835,29 +845,41 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
     document.querySelectorAll('[data-count]').forEach(countUp);
   }
 
-  // Barras del panel
-  setTimeout(function(){ document.querySelectorAll('#bars b').forEach(function(b){ b.style.width = b.dataset.w + '%'; }); }, reduce ? 0 : 900);
+  // El panel se activa al entrar en pantalla
+  var dash = document.getElementById('dash'), typer = document.getElementById('typer'), dashStarted = false;
+  function startDash(){
+    if (dashStarted) return; dashStarted = true;
+    dash.classList.add('live');
+    dash.querySelectorAll('[data-count]').forEach(countUp);
+    setTimeout(function(){ document.querySelectorAll('#bars b').forEach(function(b){ b.style.width = b.dataset.w + '%'; }); }, reduce ? 0 : 500);
+    setTimeout(typeNext, reduce ? 0 : 900);
+  }
+  if ('IntersectionObserver' in window && !reduce) {
+    var dio = new IntersectionObserver(function(en){ if (en[0].isIntersecting){ startDash(); dio.disconnect(); } }, {threshold:.35});
+    dio.observe(dash);
+  } else startDash();
 
   // Texto tipeado del insight
-  var typer = document.getElementById('typer'), ii = 0;
+  var ii = 0;
   function typeNext(){
     var txt = INSIGHTS[lang][ii % INSIGHTS[lang].length]; ii++;
     if (reduce) { typer.textContent = txt; return setTimeout(typeNext, 5000); }
     var k = 0; typer.textContent = '';
     (function t(){ typer.textContent = txt.slice(0, ++k); if (k < txt.length) setTimeout(t, 28); else setTimeout(typeNext, 3200); })();
   }
-  setTimeout(typeNext, reduce ? 0 : 1200);
 
   // Inclinación 3D del panel + glow que sigue el mouse
-  var dash = document.getElementById('dash'), glow = document.getElementById('glow'), hero = document.getElementById('hero');
+  var glow = document.getElementById('glow'), hero = document.getElementById('hero'), shift = document.getElementById('shift');
   if (!reduce && matchMedia('(pointer:fine)').matches) {
-    hero.addEventListener('mousemove', function(e){
+    shift.addEventListener('mousemove', function(e){
       var r = dash.getBoundingClientRect();
       var x = (e.clientX - (r.left + r.width/2)) / innerWidth, y = (e.clientY - (r.top + r.height/2)) / innerHeight;
       dash.style.transform = 'perspective(1000px) rotateY(' + (x*8) + 'deg) rotateX(' + (-y*8) + 'deg)';
-      glow.style.transform = 'translate(' + (x*80) + 'px,' + (y*80) + 'px)';
     });
-    hero.addEventListener('mouseleave', function(){ dash.style.transform = ''; glow.style.transform = ''; });
+    shift.addEventListener('mouseleave', function(){ dash.style.transform = ''; });
+    hero.addEventListener('mousemove', function(e){
+      glow.style.transform = 'translate(' + ((e.clientX/innerWidth-.5)*90) + 'px,' + ((e.clientY/innerHeight-.5)*90) + 'px)';
+    });
   }
 
   // Nav: fondo al hacer scroll, barra de progreso y link activo
@@ -944,7 +966,7 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
       body: JSON.stringify(data)
     }).then(function(r){ return r.json(); }).then(function(res){
       if (String(res.success) !== 'true') throw new Error(res.message || 'error');
-      track('generate_lead', {lead_service: data.servicio, click_location: 'contact_form', language: lang});
+      track('generate_lead', {lead_service: data.servicio, click_location: 'hero_form', language: lang});
       form.reset();
       status.className = 'form-status ok'; status.innerHTML = MSG[lang].ok;
     }).catch(function(){
