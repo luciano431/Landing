@@ -960,20 +960,33 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
     btn.disabled = true; btn.textContent = MSG[lang].sending; status.hidden = true;
     var data = {};
     new FormData(form).forEach(function(val, key){ data[key] = val; });
+    var settled = false;
+    function success(){
+      if (settled) return; settled = true;
+      form.reset();
+      status.className = 'form-status ok'; status.innerHTML = MSG[lang].ok; status.hidden = false;
+      btn.innerHTML = btnText;
+      // Registrar el lead y pasar a la página de gracias (con respaldo si GTM no responde)
+      var go = function(){ if (go.done) return; go.done = true; location.href = 'gracias.html' + (lang === 'en' ? '?lang=en' : ''); };
+      track('generate_lead', {lead_service: data.servicio, click_location: 'hero_form', language: lang, eventCallback: go, eventTimeout: 1500});
+      setTimeout(go, 1600);
+    }
+    function fail(){
+      if (settled) return; settled = true;
+      status.className = 'form-status err'; status.innerHTML = MSG[lang].err; status.hidden = false;
+      btn.disabled = false; btn.innerHTML = btnText;
+    }
+    // FormSubmit a veces entrega el mail pero tarda mucho en responder:
+    // si ya salió la consulta y pasan 10 s sin respuesta, la damos por enviada.
+    setTimeout(success, 10000);
     fetch('https://formsubmit.co/ajax/luciano.dgads@gmail.com', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       body: JSON.stringify(data)
     }).then(function(r){ return r.json(); }).then(function(res){
       if (String(res.success) !== 'true') throw new Error(res.message || 'error');
-      track('generate_lead', {lead_service: data.servicio, click_location: 'hero_form', language: lang});
-      form.reset();
-      status.className = 'form-status ok'; status.innerHTML = MSG[lang].ok;
-    }).catch(function(){
-      status.className = 'form-status err'; status.innerHTML = MSG[lang].err;
-    }).finally(function(){
-      status.hidden = false; btn.disabled = false; btn.innerHTML = btnText;
-    });
+      success();
+    }).catch(fail);
   });
 })();
 </script>
