@@ -21,22 +21,19 @@
 <meta name="twitter:image" content="https://lucianogrowth.netlify.app/og.jpg"/>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1018'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' text-anchor='middle' fill='%23c7f36b'%3EL.%3C/text%3E%3C/svg%3E"/>
 
-<!-- ============================================================
-     GOOGLE TAG MANAGER
-     Reemplazá GTM-XXXXXXX por tu ID real y descomentá este bloque
-     (y el <noscript> al inicio del <body>).
-     Eventos que esta página envía al dataLayer:
+<!-- Google Analytics 4 (G-SMQ9TQ707K)
+     Eventos que envía esta página:
        - generate_lead   → envío del formulario (lead_service = servicio elegido)
        - whatsapp_click  → clic en cualquier botón de WhatsApp (click_location)
        - language_change → cambio de idioma (language)
-     ============================================================ -->
-<!--
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
--->
+     Marcá generate_lead como "evento clave" en GA4 para contarlo como conversión. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SMQ9TQ707K"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SMQ9TQ707K');
+</script>
 
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -374,9 +371,6 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
 </style>
 </head>
 <body>
-<!-- GTM (noscript): descomentá junto con el bloque del <head>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
--->
 <div class="progress" id="progress"></div>
 
 <div class="navbar" id="navbar">
@@ -686,7 +680,9 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
   var WA = '5493794143826';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.dataLayer = window.dataLayer || [];
-  function track(event, params){ window.dataLayer.push(Object.assign({event:event}, params||{})); }
+  function track(event, params){
+    if (typeof window.gtag === 'function') window.gtag('event', event, params || {});
+  }
 
   // [es, en]
   var T = {
@@ -966,10 +962,15 @@ footer{padding:35px 0 45px;display:flex;justify-content:space-between;gap:20px;c
       form.reset();
       status.className = 'form-status ok'; status.innerHTML = MSG[lang].ok; status.hidden = false;
       btn.innerHTML = btnText;
-      // Registrar el lead y pasar a la página de gracias (con respaldo si GTM no responde)
-      var go = function(){ if (go.done) return; go.done = true; location.href = 'gracias.html' + (lang === 'en' ? '?lang=en' : ''); };
-      track('generate_lead', {lead_service: data.servicio, click_location: 'hero_form', language: lang, eventCallback: go, eventTimeout: 1500});
-      setTimeout(go, 1600);
+      // La conversión (generate_lead) se envía desde gracias.html, una sola vez por envío.
+      var go = function(){ location.href = 'gracias.html' + (lang === 'en' ? '?lang=en' : ''); };
+      try {
+        sessionStorage.setItem('lead', JSON.stringify({lead_service: data.servicio, click_location: 'hero_form', language: lang}));
+        go();
+      } catch(e) {
+        track('generate_lead', {lead_service: data.servicio, click_location: 'hero_form', language: lang});
+        setTimeout(go, 1200);
+      }
     }
     function fail(){
       if (settled) return; settled = true;
